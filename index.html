@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        *{
+            padding: 0;
+            margin: 0;
+            list-style: none;
+        }
+        section{
+            width: 520px;
+            height: 280px;
+            position: relative;
+        }
+        .inner{
+            overflow: hidden;
+            width: 100%;
+            height: 100%;
+        }
+        ul{
+            position:absolute;
+            bottom: 6%;
+            left: 50%;
+            transform: translateX(-50%);
+            overflow: hidden;
+        }
+        ul>li{
+            float: left;
+            width: 20px;
+            height: 20px;
+            text-align: center;
+            line-height: 20px;
+            border: 1px solid;
+            margin-left: 10px;
+        }
+        .all_imgs{
+            width: 600%;
+            height: 100%;
+            overflow: hidden;
+        }
+        img{
+            float: left;
+        }
+        .bgc{
+            background-color: #bfa;
+        }
+    </style>
+</head>
+<body>
+    <section>
+        <div class="inner">
+            <div class="all_imgs">
+                <img src="./image/0.jpg"></img>
+                <img src="./image/1.jpg"></img>
+                <img src="./image/2.jpg"></img>
+                <img src="./image/3.jpg"></img>
+                <img src="./image/4.jpg"></img>
+                <img src="./image/0.jpg"></img>
+            </div>
+        </div>
+        <ul>
+            <li class="bgc">1</li>
+            <li>2</li>
+            <li>3</li>
+            <li>4</li>
+            <li>5</li>
+        </ul>
+    </section>
+</body>
+<script> 
+    // 声明标签
+    var inner = document.querySelector('.inner');
+    var all_images = document.querySelector('.all_imgs');
+    var imgs = document.querySelectorAll('img');
+    var lis = document.querySelectorAll('li');
+    var Timer = null;
+    var Timer2 = null;
+    var index = 0;
+    var num = 0;
+    
+    //  设置img移动函数
+    function auto(){
+
+        let step = 0;
+        let autoStep = 20;
+        let star = inner.scrollLeft;
+        let end = imgs[0].offsetWidth*index;
+        // move表示移动后位置和移动前位置的差值
+        let move = (end - star)/autoStep;
+        Timer2 =  setInterval( function (){
+            step++;
+            // 当执行等于20次后清除定时器
+            if(step >= autoStep){
+                clearTimeout(Timer2)
+            }
+            star += move;
+             inner.scrollLeft += move ;
+        },10)
+        
+    }
+
+    // li的颜色设置 通过加类名实现功能
+    function lisColor(){
+        for(let i = 0 ;i< lis.length;i++){
+            lis[i].className = '';
+        }
+        if(num >= lis.length){
+            num = 0;
+        }
+        lis[num].className = 'bgc';
+    }
+    // 定时器1 
+    Timer = setInterval(times,1000);
+    function times (){
+        index++;
+        num++;
+        // 当index值等于imgs.length时，将inner的滚动条设置为0；直接显示第一张图片
+        if(index == imgs.length){
+            inner.scrollLeft = 0;
+            index = 1;
+        }
+        auto();
+        lisColor();
+    }
+</script>
+</html>
